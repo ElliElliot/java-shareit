@@ -1,7 +1,11 @@
 package ru.practicum.shareit.item;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.service.ItemService;
+
+import java.util.List;
 
 /**
  * TODO Sprint add-controllers.
@@ -9,4 +13,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/items")
 public class ItemController {
+    ItemService itemService;
+
+    @GetMapping ("/{itemId} ")//Просмотр информации о конкретной вещи по её идентификатору
+    public Object getItem (@PathVariable int itemId) {
+        return itemService.getItem(itemId);
+    }
+
+    @GetMapping//Просмотр владельцем списка всех его вещей с указанием названия и описания для каждой.
+    public List<ItemDto> getAll(@RequestHeader("X-Sharer-User-Id") int id) {
+        return itemService.getAll(id);
+    }
+
+    @GetMapping("/search")//Поиск вещи потенциальным арендатором
+    public List<ItemDto> searchItem(@RequestParam String text) {
+        return itemService.searchItem(text);
+    }
+
+    @PostMapping //добавление новой вещи
+    public ItemDto create(@RequestHeader("X-Sharer-User-Id") int userId, @RequestBody ItemDto itemDto) {
+        return itemService.create(userId, itemDto);
+    }
+
+    @PatchMapping("/{itemId}")//Редактирование вещи
+    public void update (@PathVariable int itemId) {
+        itemService.update(itemId);
+    }
 }
