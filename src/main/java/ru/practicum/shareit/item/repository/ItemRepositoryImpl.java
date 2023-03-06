@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item.repository;
 
+import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.item.ItemMapper;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
@@ -7,6 +8,7 @@ import ru.practicum.shareit.item.model.Item;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Repository
 public class ItemRepositoryImpl implements ItemRepository {
     private final Map<Integer, List<Item>> items = new HashMap<>();//список вещей
     private int id = 0;

@@ -6,7 +6,6 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public interface ItemRepository {
     Optional<ItemDto> getItem (int itemId);
     List<ItemDto> getAll(int id);

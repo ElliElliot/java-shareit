@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.ItemDto;
@@ -12,8 +13,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/items")
+@RequiredArgsConstructor
 public class ItemController {
-    ItemService itemService;
+    private final ItemService itemService;
 
     @GetMapping ("/{itemId} ")//Просмотр информации о конкретной вещи по её идентификатору
     public Object getItem (@PathVariable int itemId) {

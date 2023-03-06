@@ -1,12 +1,18 @@
 package ru.practicum.shareit.item.service;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.repository.ItemRepository;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
+@Slf4j
 public class ItemServiceImpl implements ItemService {
-    ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
 
     @Override
     public Object getItem(int itemId) {
