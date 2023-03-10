@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 /**
  * TODO Sprint add-controllers.
@@ -17,6 +18,7 @@ import javax.validation.constraints.Email;
 public class User {
     private int id; // — уникальный идентификатор пользователя;
     @NonNull
+    @NotBlank
     private String  name; // — имя или логин пользователя;
     @Email
     @NonNull

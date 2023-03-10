@@ -5,6 +5,9 @@ import lombok.Setter;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
 
+import java.util.Collections;
+import java.util.Optional;
+
 @Getter
 @Setter
 public class ItemMapper {

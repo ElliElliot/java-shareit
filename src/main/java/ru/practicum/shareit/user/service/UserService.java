@@ -13,4 +13,8 @@ public interface UserService {
     Optional<User> getById(int id);
 
     UserDto create(UserDto userDto);
+
+    UserDto update(int id, UserDto userDto);
+
+    void delete(int id);
 }

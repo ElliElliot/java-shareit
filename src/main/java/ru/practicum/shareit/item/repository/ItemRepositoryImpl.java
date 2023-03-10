@@ -1,5 +1,8 @@
 package ru.practicum.shareit.item.repository;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.item.ItemMapper;
 import ru.practicum.shareit.item.dto.ItemDto;
@@ -9,13 +12,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
+@Slf4j
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class ItemRepositoryImpl implements ItemRepository {
     private final Map<Integer, List<Item>> items = new HashMap<>();//список вещей
-    private int id = 0;
+    private int id = 1;
     @Override
     public Optional<ItemDto> getItem(int itemId) {//Просмотр информации о конкретной вещи по её идентификатору
         List<Item> allItems = new ArrayList<>();
         items.forEach((user, items1) -> allItems.addAll(items1));
+        log.info("Предмет отправлен");
         return allItems.stream()
                 .filter(item1 -> item1.getId() == itemId)
                 .findFirst()
@@ -28,11 +34,6 @@ public class ItemRepositoryImpl implements ItemRepository {
         return userItems.stream()
                 .map(ItemMapper::toItemDto)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<ItemDto> searchItem(String text) {
-        return null;
     }
 
     @Override
@@ -50,7 +51,36 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public void update(int itemId) {
+    public ItemDto update(int itemId, int userId, ItemDto itemDto) {
+        Item repoItem = items.get(userId).stream()
+                .filter(item1 -> item1.getId() == itemId)
+                .findFirst()
+                .get();
+        if (itemDto.getName() != null) repoItem.setName(itemDto.getName());
+        if (itemDto.getDescription() != null) repoItem.setDescription(itemDto.getDescription());
+        if (itemDto.getAvailable() != null) repoItem.setAvailable(itemDto.getAvailable());
+        items.get(userId).removeIf(item1 -> item1.getId() == itemId);
+        items.get(userId).add(repoItem);
+        return ItemMapper.toItemDto(repoItem);
+    }
 
+    @Override
+    public Optional<ItemDto> getItemForUpdate(int userId, int itemId) {
+        return items.getOrDefault(userId, Collections.emptyList()).stream()
+                .filter(item1 -> item1.getId() == itemId)
+                .findFirst()
+                .map(ItemMapper::toItemDto);
+    }
+
+    @Override
+    public List<ItemDto> searchItem(String text) {
+        List<Item> allItems = new ArrayList<>();
+        items.forEach((userId, items1) -> allItems.addAll(items.get(userId)));
+        return allItems.stream()
+                .filter(item -> item.getName().toLowerCase().contains(text.toLowerCase()) ||
+                        item.getDescription().toLowerCase().contains(text.toLowerCase()))
+                .filter(Item::getAvailable)
+                .map(ItemMapper::toItemDto)
+                .collect(Collectors.toList());
     }
 }

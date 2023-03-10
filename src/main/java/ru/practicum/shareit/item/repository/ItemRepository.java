@@ -1,6 +1,5 @@
 package ru.practicum.shareit.item.repository;
 
-import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.item.dto.ItemDto;
 
 import java.util.List;
@@ -11,5 +10,6 @@ public interface ItemRepository {
     List<ItemDto> getAll(int id);
     List<ItemDto>  searchItem(String text);
     ItemDto create(int userId, ItemDto itemDto);
-    void update (int itemId);
+    ItemDto update (int itemId,int userId, ItemDto itemDto);
+    Optional<ItemDto> getItemForUpdate(int userId, int itemId);
 }
