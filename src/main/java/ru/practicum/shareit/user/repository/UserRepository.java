@@ -12,6 +12,6 @@ public interface UserRepository {
     Map<Integer, User> getUsers ();
     Optional<User> getById(int id);
     UserDto create(UserDto userDto);
-    UserDto update(int id, UserDto userDto);
+    UserDto update(int id, User user);
     void delete(int id);
 }

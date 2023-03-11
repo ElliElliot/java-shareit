@@ -44,9 +44,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto update(int id, UserDto userDto) {
+    public UserDto update(int id, User user) {
+        if (user.getEmail() != null) {
+            validate(user);
+        }
         if (userRepository.getUsers().containsKey(id)) {
-            return userRepository.update(id, userDto);
+            return userRepository.update(id, user);
         } else {
             throw new ObjectNotFoundException("Пользователь не найден");
         }

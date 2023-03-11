@@ -37,12 +37,11 @@ public class UserRepositoryImpl implements  UserRepository {
     }
 
     @Override
-    public UserDto update(int id, UserDto userDto) {
-        userDto.setId(id);
-        if (userDto.getName() != null) users.get(id).setName(userDto.getName());
-        if (userDto.getEmail() != null) users.get(id).setEmail(userDto.getEmail());
-
-            return UserMapper.toUserDto(users.get(id));
+    public UserDto update(int id, User user) {
+        user.setId(id);
+        if (user.getName() != null) users.get(id).setName(user.getName());
+        if (user.getEmail() != null) users.get(id).setEmail(user.getEmail());
+        return UserMapper.toUserDto(users.get(id));
     }
 
     @Override

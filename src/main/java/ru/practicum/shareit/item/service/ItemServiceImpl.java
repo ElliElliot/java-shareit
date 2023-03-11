@@ -57,13 +57,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto update(int itemId, int userId, ItemDto itemDto) { //Редактирование вещи
+    public ItemDto update(int userId, int itemId, Item item) { //Редактирование вещи
         itemRepository.getItemForUpdate(userId, itemId).orElseThrow(() -> {
             log.warn("Обновление предмета невозможно");
             throw new ObjectNotFoundException("Обновление предмета невозможно");
         });
         log.info("Предмет обновлен");
-        return itemRepository.update(itemId, userId, itemDto);
+        return itemRepository.update(userId, itemId, item);
         // Изменить можно название, описание и статус доступа к аренде.
         // Редактировать вещь может только её владелец.
     }

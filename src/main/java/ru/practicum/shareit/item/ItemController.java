@@ -40,8 +40,8 @@ public class ItemController {
         return itemService.create(userId, itemDto);
     }
 
-    @PatchMapping("/{userId}")//Редактирование вещи
-    public ItemDto update (@RequestHeader ("X-Sharer-User-Id") int itemId, @PathVariable int userId, @RequestBody ItemDto itemDto) {
-        return itemService.update(itemId, userId, itemDto);
+    @PatchMapping("/{itemId}")//Редактирование вещи
+    public ItemDto update (@RequestHeader ("X-Sharer-User-Id") int userId, @PathVariable int itemId, @RequestBody Item item) {
+        return itemService.update(userId, itemId, item);
     }
 }

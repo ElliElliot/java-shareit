@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.item.ItemMapper;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.UserMapper;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -51,14 +52,14 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public ItemDto update(int itemId, int userId, ItemDto itemDto) {
+    public ItemDto update(int userId, int itemId, Item item) {
         Item repoItem = items.get(userId).stream()
                 .filter(item1 -> item1.getId() == itemId)
                 .findFirst()
                 .get();
-        if (itemDto.getName() != null) repoItem.setName(itemDto.getName());
-        if (itemDto.getDescription() != null) repoItem.setDescription(itemDto.getDescription());
-        if (itemDto.getAvailable() != null) repoItem.setAvailable(itemDto.getAvailable());
+        if (item.getName() != null) repoItem.setName(item.getName());
+        if (item.getDescription() != null) repoItem.setDescription(item.getDescription());
+        if (item.getAvailable() != null) repoItem.setAvailable(item.getAvailable());
         items.get(userId).removeIf(item1 -> item1.getId() == itemId);
         items.get(userId).add(repoItem);
         return ItemMapper.toItemDto(repoItem);

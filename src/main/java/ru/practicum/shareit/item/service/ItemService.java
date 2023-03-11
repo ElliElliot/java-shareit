@@ -10,5 +10,5 @@ public interface ItemService {
     List<ItemDto> getAll(int id);
     List<ItemDto>  searchItem(String text);
     ItemDto create(int userId, ItemDto itemDto);
-    ItemDto update (int itemId, int userId, ItemDto itemDto);
+    ItemDto update (int userId, int itemId, Item item);
 }

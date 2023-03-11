@@ -2,13 +2,16 @@ package ru.practicum.shareit.item.model;
 
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  * TODO Sprint add-controllers.
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Item {
     private int id; // — уникальный идентификатор вещи;
     private String name; // — краткое название;
