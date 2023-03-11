@@ -19,7 +19,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     private int id = 1;
 
     @Override
-    public Optional<ItemDto> getItem(int itemId){//Просмотр информации о конкретной вещи по её идентификатору
+    public Optional<ItemDto> getItem(int itemId){
         List<Item> allItems = new ArrayList<>();
         items.forEach((user, items1) -> allItems.addAll(items1));
         log.info("Предмет отправлен");
@@ -30,7 +30,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public List<ItemDto> getAll(int ownerId){//Просмотр владельцем списка всех его вещей с указанием названия и описания для каждой
+    public List<ItemDto> getAll(int ownerId){
         List<Item> userItems = items.getOrDefault(ownerId, Collections.emptyList());
         return userItems.stream()
                 .map(ItemMapper::toItemDto)
@@ -38,7 +38,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public ItemDto create(int userId, ItemDto itemDto){ //добавление новой вещи
+    public ItemDto create(int userId, ItemDto itemDto){
         itemDto.setId(id++);
         Item item = ItemMapper.toItem(itemDto, userId);
         items.compute(userId, (id, userItems) -> {
@@ -52,7 +52,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public ItemDto update(int userId, int itemId, Item item){ //обновление вещи
+    public ItemDto update(int userId, int itemId, Item item){
         Item repoItem = items.get(userId).stream()
                 .filter(item1 -> item1.getId() == itemId)
                 .findFirst()
