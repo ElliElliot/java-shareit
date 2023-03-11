@@ -9,7 +9,7 @@ import ru.practicum.shareit.item.model.Item;
 @Setter
 public class ItemMapper {
 
-    public static ItemDto toItemDto(Item item) {
+    public static ItemDto toItemDto(Item item){
         return new ItemDto(item.getId(),
                 item.getName(),
                 item.getDescription(),
@@ -17,7 +17,7 @@ public class ItemMapper {
         );
     }
 
-    public static Item toItem(ItemDto itemDto, int userId) {
+    public static Item toItem(ItemDto itemDto, int userId){
         return new Item(itemDto.getId(),
                 itemDto.getName(),
                 itemDto.getDescription(),

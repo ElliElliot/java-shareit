@@ -21,7 +21,7 @@ public class ItemServiceImpl implements ItemService {
     private final UserRepository userRepository;
 
     @Override
-    public ItemDto getItem(int itemId) {
+    public ItemDto getItem(int itemId){
         return itemRepository.getItem(itemId).orElseThrow(() -> {
             log.warn("Предмет не найден");
             throw new ObjectNotFoundException("Предмет не найден");
@@ -29,12 +29,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> getAll(int id) {
+    public List<ItemDto> getAll(int id){
         return itemRepository.getAll(id);
     }
 
     @Override
-    public List<ItemDto> searchItem(String text) { //Поиск вещи потенциальным арендатором
+    public List<ItemDto> searchItem(String text){ //Поиск вещи потенциальным арендатором
         if (text.isBlank()) {
             return Collections.emptyList();
         }
@@ -42,7 +42,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto create(int userId, ItemDto itemDto) { //добавление новой вещи
+    public ItemDto create(int userId, ItemDto itemDto){ //добавление новой вещи
         userRepository.getById(userId).orElseThrow(() -> {
             log.warn("Пользователь не найден");
             throw new ObjectNotFoundException("Пользователь не найден");
@@ -52,7 +52,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto update(int userId, int itemId, Item item) { //Редактирование вещи
+    public ItemDto update(int userId, int itemId, Item item){ //Редактирование вещи
         itemRepository.getItemForUpdate(userId, itemId).orElseThrow(() -> {
             log.warn("Обновление предмета невозможно");
             throw new ObjectNotFoundException("Обновление предмета невозможно");

@@ -20,27 +20,27 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping ("/{itemId}")//Просмотр информации о конкретной вещи по её идентификатору
-    public ItemDto getItem (@PathVariable int itemId) {
+    public ItemDto getItem (@PathVariable int itemId){
         return itemService.getItem(itemId);
     }
 
     @GetMapping//Просмотр владельцем списка всех его вещей с указанием названия и описания для каждой.
-    public List<ItemDto> getAll(@RequestHeader("X-Sharer-User-Id") int id) {
+    public List<ItemDto> getAll(@RequestHeader("X-Sharer-User-Id") int id){
         return itemService.getAll(id);
     }
 
     @GetMapping("/search")//Поиск вещи потенциальным арендатором
-    public List<ItemDto> searchItem(@RequestParam String text) {
+    public List<ItemDto> searchItem(@RequestParam String text){
         return itemService.searchItem(text);
     }
 
     @PostMapping //добавление новой вещи
-    public ItemDto create(@RequestHeader("X-Sharer-User-Id") int userId, @Valid @RequestBody ItemDto itemDto) {
+    public ItemDto create(@RequestHeader("X-Sharer-User-Id") int userId, @Valid @RequestBody ItemDto itemDto){
         return itemService.create(userId, itemDto);
     }
 
     @PatchMapping("/{itemId}")//Редактирование вещи
-    public ItemDto update (@RequestHeader ("X-Sharer-User-Id") int userId, @PathVariable int itemId, @RequestBody Item item) {
+    public ItemDto update(@RequestHeader ("X-Sharer-User-Id") int userId, @PathVariable int itemId, @RequestBody Item item){
         return itemService.update(userId, itemId, item);
     }
 }

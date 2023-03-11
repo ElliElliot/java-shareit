@@ -20,20 +20,20 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDto create(UserDto userDto) {
+    public UserDto create(UserDto userDto){
         validate(UserMapper.toUser(userDto));
         log.info("Создан пользователь с id {}", userDto.getId());
         return userRepository.create(userDto);
     }
 
     @Override
-    public List<User> getAll() {
+    public List<User> getAll(){
         log.info("Отправлен список пользователей");
         return userRepository.getAll();
     }
 
     @Override
-    public Optional<User> getById(int id) {
+    public Optional<User> getById(int id){
         if (!userRepository.getUsers().containsKey(id)) {
             log.warn("Пользователь с id {} не найден", id);
             throw new ObjectNotFoundException("Пользоаватель не найден");
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(int id, User user) {
+    public User update(int id, User user){
         isUsedEmail(user.getEmail(), id);
         if (userRepository.getUsers().containsKey(id)) {
             return userRepository.update(id, user);
@@ -53,12 +53,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id){
         log.info("Пользователь с id {} удалён", id);
         userRepository.delete(id);
     }
 
-    private void validate (User user) {
+    private void validate (User user){
         List<User> users = userRepository.getAll();
         boolean emailValidate = users.stream()
                 .anyMatch(repoUser -> repoUser.getEmail().equals(user.getEmail()));
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
             throw new ValidateException("Пользователь с таким e-mail уже существует");
         }
     }
-    private void isUsedEmail(String email, int userId) {
+    private void isUsedEmail(String email, int userId){
         userRepository.getUsers().values().stream()
                 .filter(user -> user.getEmail().equals(email) && user.getId() != userId)
                 .findFirst()
