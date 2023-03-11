@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.item.ItemMapper;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.UserMapper;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class ItemRepositoryImpl implements ItemRepository {
-    private final Map<Integer, List<Item>> items = new HashMap<>();//список вещей
+    private final Map<Integer, List<Item>> items = new HashMap<>();
     private int id = 1;
     @Override
     public Optional<ItemDto> getItem(int itemId) {//Просмотр информации о конкретной вещи по её идентификатору
@@ -52,7 +51,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public ItemDto update(int userId, int itemId, Item item) {
+    public ItemDto update(int userId, int itemId, Item item) { //обновление вещи
         Item repoItem = items.get(userId).stream()
                 .filter(item1 -> item1.getId() == itemId)
                 .findFirst()

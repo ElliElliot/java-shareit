@@ -21,12 +21,11 @@ public class ItemServiceImpl implements ItemService {
     private final UserRepository userRepository;
 
     @Override
-    public Object getItem(int itemId) {
+    public ItemDto getItem(int itemId) {
         return itemRepository.getItem(itemId).orElseThrow(() -> {
-            log.warn("Item not found");
-            throw new ObjectNotFoundException("Item not found");
+            log.warn("Предмет не найден");
+            throw new ObjectNotFoundException("Предмет не найден");
         });
-        // Информацию о вещи может просмотреть любой пользователь
     }
 
     @Override
@@ -40,8 +39,6 @@ public class ItemServiceImpl implements ItemService {
             return Collections.emptyList();
         }
         return itemRepository.searchItem(text);
-        // Пользователь передаёт в строке запроса текст, и система ищет вещи, содержащие этот текст в названии или описании
-        // в text передаётся текст для поиска. Проверьте, что поиск возвращает только доступные для аренды вещи.
     }
 
     @Override
@@ -52,8 +49,6 @@ public class ItemServiceImpl implements ItemService {
         });
         log.info("Предмет создан");
         return itemRepository.create(userId, itemDto);
-        // User-Id — это идентификатор пользователя, который добавляет вещь.
-        // Именно этот пользователь — владелец вещи
     }
 
     @Override
@@ -64,11 +59,5 @@ public class ItemServiceImpl implements ItemService {
         });
         log.info("Предмет обновлен");
         return itemRepository.update(userId, itemId, item);
-        // Изменить можно название, описание и статус доступа к аренде.
-        // Редактировать вещь может только её владелец.
-    }
-
-    private void validate (int id) {
-
     }
 }

@@ -18,11 +18,10 @@ import java.util.Optional;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private UserMapper userMapper = new UserMapper();
 
     @Override
     public UserDto create(UserDto userDto) {
-        validate(userMapper.toUser(userDto));
+        validate(UserMapper.toUser(userDto));
         log.info("Создан пользователь с id {}", userDto.getId());
         return userRepository.create(userDto);
     }
@@ -44,10 +43,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto update(int id, User user) {
-        if (user.getEmail() != null) {
-            validate(user);
-        }
+    public User update(int id, User user) {
+        isUsedEmail(user.getEmail(), id);
         if (userRepository.getUsers().containsKey(id)) {
             return userRepository.update(id, user);
         } else {
@@ -69,5 +66,13 @@ public class UserServiceImpl implements UserService {
             log.warn("Пользователь с таким e-mail уже существует");
             throw new ValidateException("Пользователь с таким e-mail уже существует");
         }
+    }
+    private void isUsedEmail(String email, int userId) {
+        userRepository.getUsers().values().stream()
+                .filter(user -> user.getEmail().equals(email) && user.getId() != userId)
+                .findFirst()
+                .ifPresent(s -> {
+                    throw new ValidateException("Пользователь с таким e-mail уже существует");
+                });
     }
 }
