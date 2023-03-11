@@ -19,7 +19,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     private int id = 1;
 
     @Override
-    public Optional<ItemDto> getItem(int itemId){
+    public Optional<ItemDto> getItem(int itemId) {
         List<Item> allItems = new ArrayList<>();
         items.forEach((user, items1) -> allItems.addAll(items1));
         log.info("Предмет отправлен");
@@ -30,7 +30,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public List<ItemDto> getAll(int ownerId){
+    public List<ItemDto> getAll(int ownerId) {
         List<Item> userItems = items.getOrDefault(ownerId, Collections.emptyList());
         return userItems.stream()
                 .map(ItemMapper::toItemDto)
@@ -38,7 +38,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public ItemDto create(int userId, ItemDto itemDto){
+    public ItemDto create(int userId, ItemDto itemDto) {
         itemDto.setId(id++);
         Item item = ItemMapper.toItem(itemDto, userId);
         items.compute(userId, (id, userItems) -> {
@@ -52,7 +52,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public ItemDto update(int userId, int itemId, Item item){
+    public ItemDto update(int userId, int itemId, Item item) {
         Item repoItem = items.get(userId).stream()
                 .filter(item1 -> item1.getId() == itemId)
                 .findFirst()
@@ -66,7 +66,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public Optional<ItemDto> getItemForUpdate(int userId, int itemId){
+    public Optional<ItemDto> getItemForUpdate(int userId, int itemId) {
         return items.getOrDefault(userId, Collections.emptyList()).stream()
                 .filter(item1 -> item1.getId() == itemId)
                 .findFirst()
@@ -74,7 +74,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public List<ItemDto> searchItem(String text){
+    public List<ItemDto> searchItem(String text) {
         List<Item> allItems = new ArrayList<>();
         items.forEach((userId, items1) -> allItems.addAll(items.get(userId)));
         return allItems.stream()
