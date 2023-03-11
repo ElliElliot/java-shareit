@@ -18,5 +18,4 @@ public interface ItemRepository {
     ItemDto update(int userId, int itemId, Item item);
 
     Optional<ItemDto> getItemForUpdate(int userId, int itemId);
-    
 }
