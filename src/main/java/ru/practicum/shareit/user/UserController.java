@@ -22,7 +22,7 @@ public class UserController {
     @PostMapping
     public UserDto create(@Valid @RequestBody UserDto userDto) {
         return userService.create(userDto);
-    };
+    }
 
     @GetMapping
     public List<User> getAll() {
