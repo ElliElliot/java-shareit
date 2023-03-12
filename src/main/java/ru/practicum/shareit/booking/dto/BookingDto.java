@@ -5,6 +5,7 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
+
 public class BookingDto {
     int id; // — уникальный идентификатор бронирования;
     LocalDateTime start; // — дата и время начала бронирования;
