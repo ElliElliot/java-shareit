@@ -78,8 +78,8 @@ public class ItemRepositoryImpl implements ItemRepository {
         List<Item> allItems = new ArrayList<>();
         items.forEach((userId, items1) -> allItems.addAll(items.get(userId)));
         return allItems.stream()
-                .filter(item -> item.getName().toLowerCase().contains(text.toLowerCase()) ||
-                        item.getDescription().toLowerCase().contains(text.toLowerCase()))
+                .filter(item -> item.getName().toLowerCase().contains(text) ||
+                        item.getDescription().toLowerCase().contains(text))
                 .filter(Item::getAvailable)
                 .map(ItemMapper::toItemDto)
                 .collect(Collectors.toList());

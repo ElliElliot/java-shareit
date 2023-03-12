@@ -34,15 +34,15 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> searchItem(String text) { //Поиск вещи потенциальным арендатором
+    public List<ItemDto> searchItem(String text) {
         if (text.isBlank()) {
             return Collections.emptyList();
         }
-        return itemRepository.searchItem(text);
+        return itemRepository.searchItem(text.toLowerCase());
     }
 
     @Override
-    public ItemDto create(int userId, ItemDto itemDto) { //добавление новой вещи
+    public ItemDto create(int userId, ItemDto itemDto) {
         userRepository.getById(userId).orElseThrow(() -> {
             log.warn("Пользователь не найден");
             throw new ObjectNotFoundException("Пользователь не найден");
@@ -52,7 +52,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto update(int userId, int itemId, Item item) { //Редактирование вещи
+    public ItemDto update(int userId, int itemId, Item item) {
         itemRepository.getItemForUpdate(userId, itemId).orElseThrow(() -> {
             log.warn("Обновление предмета невозможно");
             throw new ObjectNotFoundException("Обновление предмета невозможно");

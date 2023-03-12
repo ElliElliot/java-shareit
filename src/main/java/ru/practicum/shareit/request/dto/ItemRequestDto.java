@@ -4,9 +4,6 @@ import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 
-/**
- * TODO Sprint add-item-requests.
- */
 public class ItemRequestDto {
     int id; // — уникальный идентификатор запроса;
     String description; // — текст запроса, содержащий описание требуемой вещи;
