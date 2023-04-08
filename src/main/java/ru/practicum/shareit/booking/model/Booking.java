@@ -1,19 +1,41 @@
 package ru.practicum.shareit.booking.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"item", "booker"})
+@Entity
+@Table(name = "bookings")
+@NoArgsConstructor
+
 public class Booking {
-
-    private int id; // — уникальный идентификатор бронирования;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id; // — уникальный идентификатор бронирования;
+    @Column(name = "start_date")
     private LocalDateTime start; // — дата и время начала бронирования;
+    @Column(name = "end_date")
     private LocalDateTime end; // — дата и время конца бронирования;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "item_id", referencedColumnName = "id")
     private Item item; // — вещь, которую пользователь бронирует;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "booker_id", referencedColumnName = "id")
     private User booker; // — пользователь, который осуществляет бронирование;
-    private BookingStatus status; // — статус бронирования.
-
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status = BookingStatus.WAITING; // — статус бронирования.
 }

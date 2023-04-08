@@ -9,8 +9,9 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
-    private int id;
+    private long id;
     @NotBlank
     private String  name;
     @NotNull
