@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.spi.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -16,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 public class ErrorHandler {
     @ExceptionHandler({InappropriateUser.class, ObjectNotFoundException.class})
     public ResponseEntity<ErrorMessage> notFound(RuntimeException e) {
+        log.error("Not found " + e.getMessage());
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorMessage(e.getMessage()));
@@ -29,7 +31,8 @@ public class ErrorHandler {
                 .body(new ErrorMessage("Already used email:" + e.getMessage()));
     }
 
-    @ExceptionHandler({BadRequestException.class, ItemIsUnavailable.class, BookingStatusAlreadySet.class})
+    @ExceptionHandler({BadRequestException.class, ItemIsUnavailable.class, BookingStatusAlreadySet.class,
+            MethodArgumentNotValidException.class})
     public ResponseEntity<ErrorMessage> badRequest(RuntimeException e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -47,5 +50,12 @@ public class ErrorHandler {
 
         ErrorResponse errorResponse = new ErrorResponse(timestamp, status.value(), error, message, path);
         return new ResponseEntity<>(errorResponse, status);
+    }
+
+    @ExceptionHandler (Exception.class)
+    public ResponseEntity<ErrorMessage> ourException(RuntimeException e) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorMessage(e.getMessage()));
     }
 }

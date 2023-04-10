@@ -89,6 +89,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public ItemDto update(long userId, long itemId, ItemDto itemDto) {
         isExistItem(itemId);
         Item item = itemRepository.findById(itemId).get();
