@@ -1,21 +1,18 @@
 package ru.practicum.shareit.item.repository;
 
-import ru.practicum.shareit.item.dto.ItemDto;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.item.model.Item;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface ItemRepository {
-    Optional<ItemDto> getItem(int itemId);
+@Repository
+public interface ItemRepository extends JpaRepository<Item, Long> {
+    List<Item> findAllByOwner(long ownerId);
 
-    List<ItemDto> getAll(int id);
+    @Query(value = "SELECT * FROM items WHERE name ILIKE CONCAT('%',?1,'%') OR description ILIKE CONCAT('%',?1,'%') AND " +
+            "is_available = TRUE", nativeQuery = true)
 
-    List<ItemDto> searchItem(String text);
-
-    ItemDto create(int userId, ItemDto itemDto);
-
-    ItemDto update(int userId, int itemId, Item item);
-
-    Optional<ItemDto> getItemForUpdate(int userId, int itemId);
+    List<Item> searchItem(String text);
 }
